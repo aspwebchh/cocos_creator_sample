@@ -51,15 +51,26 @@ cc.Class({
         itemJ: {
             default: null,
             type: cc.Prefab
+        },
+        layout:{
+            default:null,
+            type: cc.Layout
         }
     },
 
+
+    newItem() {
+        var newItem = cc.instantiate(this.itemA);
+        return newItem;
+    },
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        var newItem = cc.instantiate(this.itemA);
-        this.node.addChild(newItem);
-        newItem.setPosition(cc.p(0,0));
+        // var newItem = cc.instantiate(this.itemA);
+        // this.node.addChild(newItem);
+        // newItem.setPosition(cc.p(0,0));
+        this.layout.getComponent('layout').game = this
+
     },
 
     start () {
