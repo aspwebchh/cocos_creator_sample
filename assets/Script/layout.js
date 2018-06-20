@@ -36,10 +36,27 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
      onLoad () {
+
+        this.node.addChild(this.game.newItem());
+        this.node.addChild(this.game.newItem());
+        this.node.addChild(this.game.newItem());
+        this.node.addChild(this.game.newItem());
+        this.node.addChild(this.game.newItem());
+        this.node.addChild(this.game.newItem());
+
         let newItem = this.game.newItem();
+        newItem.y = 100;
+        newItem.x = 0;
         this.node.addChild(newItem);
-        //http://www.cocoscreator.com/docs/creator/ui/list-with-data.html
-     },
+
+        console.log(this.updateLayout);
+
+        
+        // console.log(newItem);
+        
+
+
+    },
 
     start () {
  

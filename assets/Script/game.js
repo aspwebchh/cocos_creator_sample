@@ -59,18 +59,16 @@ cc.Class({
     },
 
 
-    newItem() {
-        var newItem = cc.instantiate(this.itemA);
-        return newItem;
+    createItem() {
+        let prefabs = [this.itemA,this.itemB,this.itemC,this.itemD,this.itemE,this.itemF,this.itemG,this.itemH,this.itemI,this.itemJ];
+        let random = Math.floor(Math.random() * prefabs.length);
+        return cc.instantiate( prefabs[random] );
     },
+
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        // var newItem = cc.instantiate(this.itemA);
-        // this.node.addChild(newItem);
-        // newItem.setPosition(cc.p(0,0));
-        this.layout.getComponent('layout').game = this
-
+        this.layout.getComponent('game_layout').game = this
     },
 
     start () {
