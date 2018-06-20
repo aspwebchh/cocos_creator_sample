@@ -8,6 +8,8 @@
 //  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
 
+var ItemWrapper = require("item_wrapper");
+
 cc.Class({
     extends: cc.Component,
 
@@ -62,7 +64,10 @@ cc.Class({
     createItem() {
         let prefabs = [this.itemA,this.itemB,this.itemC,this.itemD,this.itemE,this.itemF,this.itemG,this.itemH,this.itemI,this.itemJ];
         let random = Math.floor(Math.random() * prefabs.length);
-        return cc.instantiate( prefabs[random] );
+        let item = cc.instantiate( prefabs[random] );
+        let itemWrapper = new ItemWrapper();
+        itemWrapper.content = item;
+        return itemWrapper;
     },
 
     // LIFE-CYCLE CALLBACKS:

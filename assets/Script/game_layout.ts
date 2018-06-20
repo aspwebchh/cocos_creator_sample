@@ -12,27 +12,47 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class NewClass extends cc.Component {
-
-    @property(cc.Label)
-    label: cc.Label = null;
-
-    @property
-    text: string = 'hello';
-
-
     @property
     game: any = null;
-    // LIFE-CYCLE CALLBACKS:
+
+    private currItemWrapper : any;
+    private targetItemWrapper : any;
+    private isMousedown = false;
+    private itemWrappers : any[] = [];
 
     onLoad() {
-        this.node.addChild(this.createRow());
-        this.node.addChild(this.createRow());
-        this.node.addChild(this.createRow());
-        this.node.addChild(this.createRow());
-        this.node.addChild(this.createRow());
+        // let itemWrapper = this.game.createItem();
+        // this.node.addChild(this.game.createItem().content);
+        // this.node.addChild(this.game.createItem().content);
+        // this.node.addChild(this.game.createItem().content);
+        // this.node.addChild(this.game.createItem().content);
+        // this.node.addChild(this.game.createItem().content);
+        // this.node.addChild(this.game.createItem().content);
+
+        // this.node.addChild(this.game.createItem().content);
+        // this.node.addChild(this.game.createItem().content);
+        // this.node.addChild(this.game.createItem().content);
+        // this.node.addChild(this.game.createItem().content);
+        // this.node.addChild(this.game.createItem().content);
+        // this.node.addChild(this.game.createItem().content);
+
+        // this.node.addChild(this.createRow(0));
+        // this.node.addChild(this.createRow(1));
+        // this.node.addChild(this.createRow(2));
+        // this.node.addChild(this.createRow(3));
+        // this.node.addChild(this.createRow(4));
     }
 
-    private createRow() {
+    private findItemWrapperByItem( item ) {
+        let resultItems = this.itemWrappers.filter( n => n.content == item );
+        if( resultItems.length > 0 ) {
+            return resultItems[0];
+        } else {
+            return null;
+        }
+    }
+
+    private createRow( xIndex ) {
         let node = new cc.Node();
         let layout = node.addComponent(cc.Layout);
         layout.type = cc.Layout.Type.HORIZONTAL;
@@ -40,12 +60,34 @@ export default class NewClass extends cc.Component {
         node.width = this.node.width;
         node.height = 100;
        
-        node.addChild(this.game.createItem());
-        node.addChild(this.game.createItem());
-        node.addChild(this.game.createItem());
-        node.addChild(this.game.createItem());
-        node.addChild(this.game.createItem());
-        node.addChild(this.game.createItem());
+        for(let i = 0; i < 6;i++) {
+            let itemWrapper = this.game.createItem();
+            itemWrapper.xIndex = xIndex;
+            itemWrapper.yIndex = i;
+            this.itemWrappers.push(itemWrapper);
+
+            let item = itemWrapper.content as cc.Node;
+            node.addChild(item);
+            
+            item.on(cc.Node.EventType.MOUSE_DOWN, e => {
+                this.currItemWrapper = itemWrapper;
+                this.isMousedown = true;
+            }, this);
+
+            item.on(cc.Node.EventType.MOUSE_MOVE, ( event: cc.Event.EventMouse ) => {
+                if( !this.isMousedown ) {
+                    return;
+                }
+                let found = this.findItemWrapperByItem(event.target);
+                if( found != null) {
+                    this.targetItemWrapper = found;
+                }
+            }, this);
+
+            item.on(cc.Node.EventType.MOUSE_UP, e =>{
+                this.isMousedown = false;
+            }, this)
+        }
 
         return node;
     }
