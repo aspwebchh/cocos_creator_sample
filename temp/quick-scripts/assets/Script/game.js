@@ -1,3 +1,9 @@
+(function() {"use strict";var __module = CC_EDITOR ? module : {exports:{}};var __filename = 'preview-scripts/assets/Script/game.js';var __require = CC_EDITOR ? function (request) {return cc.require(request, require);} : function (request) {return cc.require(request, __filename);};function __define (exports, require, module) {"use strict";
+cc._RF.push(module, 'c8a5eVW+GpJRJrM8Jk6T17A', 'game', __filename);
+// Script/game.js
+
+"use strict";
+
 // Learn cc.Class:
 //  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/class.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/class.html
@@ -55,31 +61,39 @@ cc.Class({
             default: null,
             type: cc.Prefab
         },
-        layout:{
-            default:null,
+        layout: {
+            default: null,
             type: cc.Layout
         }
     },
 
-
-    createItem( num ) {
-        let prefabs = [this.itemA,this.itemB,this.itemC,this.itemD,this.itemE,this.itemF,this.itemG,this.itemH,this.itemI,this.itemJ];
-        let item = cc.instantiate( prefabs[num] );
-        let itemWrapper = new ItemWrapper.default();
+    createItem: function createItem(num) {
+        var prefabs = [this.itemA, this.itemB, this.itemC, this.itemD, this.itemE, this.itemF, this.itemG, this.itemH, this.itemI, this.itemJ];
+        var item = cc.instantiate(prefabs[num]);
+        var itemWrapper = new ItemWrapper.default();
         itemWrapper.content = item;
         return itemWrapper;
     },
-
-    getGridGameStruct() {
-        let gridGameStruct = new GridGameStruct();
+    getGridGameStruct: function getGridGameStruct() {
+        var gridGameStruct = new GridGameStruct();
         return gridGameStruct;
     },
-
-    onLoad () {
+    onLoad: function onLoad() {
         this.layout.getComponent('game_layout').game = this;
     },
-
-    start () {
-
-    },
+    start: function start() {}
 });
+
+cc._RF.pop();
+        }
+        if (CC_EDITOR) {
+            __define(__module.exports, __require, __module);
+        }
+        else {
+            cc.registerModuleFunc(__filename, function () {
+                __define(__module.exports, __require, __module);
+            });
+        }
+        })();
+        //# sourceMappingURL=game.js.map
+        
