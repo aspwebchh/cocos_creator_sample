@@ -86,20 +86,23 @@ export default class NewClass extends cc.Component {
                 //执行逻辑交换
                 let fromWrapper = this.findItemWrapperByItem( fromNode );
                 let toWrapper = this.findItemWrapperByItem( toNode );
-                let fromPos = this.gridGame.getPos( fromWrapper.id );
-                let toPos = this.gridGame.getPos( toWrapper.id );
                 this.gridGame.swapGrid(fromWrapper.id, toWrapper.id);
                 var removeableGrids = this.gridGame.remove();	
                 for(let i = 0; i < removeableGrids.length; i++) {
                     let id = removeableGrids[i].getID();
                     let removeableNode = this.findNodeById( id );
                     this.node.removeChild(removeableNode);
+                    this.removeItemInItemWrappers(id);
                 }
                 this.fill();
             }
         }, this)
 
         return node;
+    }
+
+    private removeItemInItemWrappers( id : number) {
+        this.itemWrappers = this.itemWrappers.filter( item => item.id != id );
     }
 
     private fill() {
@@ -112,14 +115,24 @@ export default class NewClass extends cc.Component {
                 if( grid.moveable() && !grid.isNew() ) {
                     let node = this.findNodeById(grid.getID());
                     if(node != null) {
-                        node.y -= node.height * grid.getMoveCount();
+                        let x = node.x;
+                        let y = node.y -  node.height * grid.getMoveCount();
+                        let moveAct = cc.moveTo( 0.5, x, y );
+                        node.runAction( moveAct );
                     }
                 } else if( grid.isNew() ) {
                     let node = this.createItem(grid.getNumber(),grid.getID());
                     node.zIndex = 0;
-                    node.x = col * 100 - 300;
-                    node.y = row * 100 - 250;
+
+                    let x = col * 100 - 300;
+                    let y = row * 100 - 250;
+
+                    node.x = x;
+                    node.y = gameBoard.length * 100;
                     this.node.addChild( node );
+
+                    let moveAct = cc.moveTo( 0.5, x, y );
+                    node.runAction( moveAct );
                 }      
             }
         }
