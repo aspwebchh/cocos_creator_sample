@@ -4,14 +4,12 @@ cc._RF.push(module, '2f06dbx8VFIJKZ35vUR1Yl+', 'grid');
 
 "use strict";
 
-var gridCount = 0;
-
 cc.Class({
     properties: {
         num: null,
         state: null,
         tempState: null,
-        id: ++gridCount,
+        id: null,
         moveCount: 0,
         _isNew: true
     },
@@ -29,7 +27,7 @@ cc.Class({
     },
 
     getMoveCount: function getMoveCount() {
-        return moveCount;
+        return this.moveCount;
     },
 
     setMoveCount: function setMoveCount(c) {
@@ -61,6 +59,9 @@ cc.Class({
     },
     getID: function getID() {
         return this.id;
+    },
+    setID: function setID(id) {
+        this.id = id;
     }
 });
 

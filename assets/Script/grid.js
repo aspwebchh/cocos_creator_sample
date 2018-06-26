@@ -1,11 +1,11 @@
-var gridCount = 0;
+
 
 cc.Class({
     properties: {
         num : null,
         state : null,
         tempState : null,
-        id: ++gridCount,
+        id: null,
         moveCount: 0,
         _isNew: true,
     },
@@ -23,7 +23,7 @@ cc.Class({
     },
 
     getMoveCount : function() {
-        return moveCount;
+        return this.moveCount;
     },
 
     setMoveCount ( c ) {
@@ -64,5 +64,9 @@ cc.Class({
 
     getID() {
         return this.id;
+    },
+
+    setID( id ) {
+        this.id = id;
     }
 });

@@ -137,10 +137,14 @@ function _getPos(gridID) {
     }
 }
 
+var gridCount = 0;
+
 function randomGrid() {
     var r = Math.floor(Math.random() * 10);
+    gridCount++;
     var g = new Grid();
     g.setNumber(r);
+    g.setID(gridCount);
     return g;
 }
 
@@ -245,22 +249,22 @@ cc.Class({
             }
 
             var index = pos.i;
-            while (index > 0) {
-                var grid = gameBoard[index - 1][pos.j];
+            while (index < Y - 1) {
+                var grid = gameBoard[index + 1][pos.j];
                 grid.addMoveCount();
                 gameBoard[index][pos.j] = grid;
-                index--;
+                index++;
             }
-            gameBoard[0][pos.j] = randomGrid();
-            gameBoard[0][pos.j].setMoveCount(colMoveCount[pos.j] - 1);
+            gameBoard[Y - 1][pos.j] = randomGrid();
+            gameBoard[Y - 1][pos.j].setMoveCount(colMoveCount[pos.j] - 1);
 
             pos = this.getFirstEmptyPos();
         }
     },
 
     getFirstEmptyPos: function getFirstEmptyPos() {
-        for (var i = 0; i < Y; i++) {
-            for (var j = 0; j < X; j++) {
+        for (var i = Y - 1; i >= 0; i--) {
+            for (var j = X - 1; j >= 0; j--) {
                 if (gameBoard[i][j] == null) {
                     return { i: i, j: j };
                 }

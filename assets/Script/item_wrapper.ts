@@ -13,9 +13,8 @@
 export default class ItemWrapper  {
 
     public content: cc.Node;
-
-    public xIndex : number;
     
-    public yIndex: number;
+    public number: number;
 
+    public id: number;
 }
