@@ -83,19 +83,21 @@ var NewClass = /** @class */ (function (_super) {
                 //执行逻辑交换
                 var fromWrapper = _this.findItemWrapperByItem(fromNode);
                 var toWrapper = _this.findItemWrapperByItem(toNode);
-                var fromPos = _this.gridGame.getPos(fromWrapper.id);
-                var toPos = _this.gridGame.getPos(toWrapper.id);
                 _this.gridGame.swapGrid(fromWrapper.id, toWrapper.id);
                 var removeableGrids = _this.gridGame.remove();
                 for (var i = 0; i < removeableGrids.length; i++) {
                     var id_1 = removeableGrids[i].getID();
                     var removeableNode = _this.findNodeById(id_1);
                     _this.node.removeChild(removeableNode);
+                    _this.removeItemInItemWrappers(id_1);
                 }
                 _this.fill();
             }
         }, this);
         return node;
+    };
+    NewClass.prototype.removeItemInItemWrappers = function (id) {
+        this.itemWrappers = this.itemWrappers.filter(function (item) { return item.id != id; });
     };
     NewClass.prototype.fill = function () {
         this.gridGame.fillGameBoard();
@@ -106,15 +108,22 @@ var NewClass = /** @class */ (function (_super) {
                 if (grid.moveable() && !grid.isNew()) {
                     var node = this.findNodeById(grid.getID());
                     if (node != null) {
-                        node.y -= node.height * grid.getMoveCount();
+                        var x = node.x;
+                        var y = node.y - node.height * grid.getMoveCount();
+                        var moveAct = cc.moveTo(0.5, x, y);
+                        node.runAction(moveAct);
                     }
                 }
                 else if (grid.isNew()) {
                     var node = this.createItem(grid.getNumber(), grid.getID());
                     node.zIndex = 0;
-                    node.x = col * 100 - 300;
-                    node.y = row * 100 - 250;
+                    var x = col * 100 - 300;
+                    var y = row * 100 - 250;
+                    node.x = x;
+                    node.y = gameBoard.length * 100;
                     this.node.addChild(node);
+                    var moveAct = cc.moveTo(0.5, x, y);
+                    node.runAction(moveAct);
                 }
             }
         }

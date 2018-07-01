@@ -277,6 +277,12 @@ cc.Class({
     swapGrid: function swapGrid(gridID1, gridID2) {
         var pos1 = _getPos(gridID1);
         var pos2 = _getPos(gridID2);
+        if (pos1 == null || pos2 == null) {
+            console.log(pos1);
+            console.log(pos2);
+            console.log(gridID1);
+            console.log(gridID2);
+        }
         var grid1 = gameBoard[pos1.i][pos1.j];
         var grid2 = gameBoard[pos2.i][pos2.j];
         gameBoard[pos1.i][pos1.j] = grid2;
