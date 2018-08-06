@@ -35,8 +35,8 @@ var NewClass = /** @class */ (function (_super) {
                 var number = grid.getNumber();
                 var node = this.createItem(number, grid.getID());
                 node.zIndex = 0;
-                node.x = col * 100 - 300;
-                node.y = row * 100 - 250;
+                node.x = col * 100;
+                node.y = row * 100;
                 this.node.addChild(node);
             }
         }
@@ -117,8 +117,8 @@ var NewClass = /** @class */ (function (_super) {
                 else if (grid.isNew()) {
                     var node = this.createItem(grid.getNumber(), grid.getID());
                     node.zIndex = 0;
-                    var x = col * 100 - 300;
-                    var y = row * 100 - 250;
+                    var x = col * 100;
+                    var y = row * 100;
                     node.x = x;
                     node.y = gameBoard.length * 100;
                     this.node.addChild(node);

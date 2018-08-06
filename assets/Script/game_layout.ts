@@ -34,10 +34,10 @@ export default class NewClass extends cc.Component {
                 grid.setMoveCount( gameBoard.length - 1 );
 
                 let number = grid.getNumber();
-                let node = this.createItem( number, grid.getID() );
+                let node = this.createItem( number, grid.getID() ); 
                 node.zIndex = 0;
-                node.x = col * 100 - 300;
-                node.y = row * 100 - 250;
+                node.x = col * 100;
+                node.y = row * 100;
                 this.node.addChild(node);
             }
         }
@@ -124,8 +124,8 @@ export default class NewClass extends cc.Component {
                     let node = this.createItem(grid.getNumber(),grid.getID());
                     node.zIndex = 0;
 
-                    let x = col * 100 - 300;
-                    let y = row * 100 - 250;
+                    let x = col * 100;
+                    let y = row * 100;
 
                     node.x = x;
                     node.y = gameBoard.length * 100;
