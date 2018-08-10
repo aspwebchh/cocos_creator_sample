@@ -105,6 +105,23 @@ export default class NewClass extends cc.Component {
         this.itemWrappers = this.itemWrappers.filter( item => item.id != id );
     }
 
+    private getNewGridCount( x, y ) {
+        let gameBoard = this.gridGame.getGameBoard();
+        let count = 0;   
+        for(let row = gameBoard.length; row >= 0; row--) {
+            if(row >= y) {
+                continue;
+            }
+            let grid = gameBoard[row][x];
+            if( grid.isNew()) {
+                count++;
+            } else {
+                break;
+            }
+        }
+        return count;
+    }
+
     private fill() {
         this.gridGame.fillGameBoard();
         let gameBoard = this.gridGame.getGameBoard();
@@ -128,7 +145,7 @@ export default class NewClass extends cc.Component {
                     let y = row * 100;
 
                     node.x = x;
-                    node.y = gameBoard.length * 100;
+                    node.y = gameBoard.length * 100 + this.getNewGridCount(col, row) * 100;
                     this.node.addChild( node );
 
                     let moveAct = cc.moveTo( 0.5, x, y );
