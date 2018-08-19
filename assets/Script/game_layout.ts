@@ -41,7 +41,9 @@ export default class NewClass extends cc.Component {
                 this.node.addChild(node);
             }
         }
+        this.next(); 
     }
+
 
     private createItem(number : number, id: number) : cc.Node {
         let itemWrapper = this.game.createItem( number ) as ItemWrapper;
@@ -78,28 +80,35 @@ export default class NewClass extends cc.Component {
                 let fromNodeAct = cc.moveTo(0.1, this.currItemPosition);
                 fromNode.runAction(fromNodeAct);
             } else {
-                let fromNodeAct = cc.moveTo( 0.1, toNode.x, toNode.y );
+                let fromNodeAct = cc.moveTo( 0, toNode.x, toNode.y );
                 fromNode.runAction(fromNodeAct);
                 fromNode.zIndex = 0;
-                let toNodeAct = cc.moveTo(0.1, this.currItemPosition);
+                let toNodeAct = cc.moveTo(0, this.currItemPosition);
                 toNode.runAction(toNodeAct);
                 //执行逻辑交换
                 let fromWrapper = this.findItemWrapperByItem( fromNode );
                 let toWrapper = this.findItemWrapperByItem( toNode );
                 this.gridGame.swapGrid(fromWrapper.id, toWrapper.id);
-                var removeableGrids = this.gridGame.remove();	
-                for(let i = 0; i < removeableGrids.length; i++) {
-                    let id = removeableGrids[i].getID();
-                    let removeableNode = this.findNodeById( id );
-                    this.node.removeChild(removeableNode);
-                    this.removeItemInItemWrappers(id);
-                }
-                this.fill();
+                this.next();
             }
         }, this)
 
         return node;
     }
+
+    private next() {
+        let removeableGrids = this.gridGame.remove();	
+        if( removeableGrids.length > 0 ) {
+            for(let i = 0; i < removeableGrids.length; i++) {
+                let id = removeableGrids[i].getID();
+                let removeableNode = this.findNodeById( id );
+                this.node.removeChild(removeableNode);
+                this.removeItemInItemWrappers(id);
+            }
+            this.fill();
+        }
+    }
+
 
     private removeItemInItemWrappers( id : number) {
         this.itemWrappers = this.itemWrappers.filter( item => item.id != id );
@@ -135,7 +144,15 @@ export default class NewClass extends cc.Component {
                         let x = node.x;
                         let y = node.y -  node.height * grid.getMoveCount();
                         let moveAct = cc.moveTo( 0.5, x, y );
-                        node.runAction( moveAct );
+                        node.runAction(  
+                            cc.sequence( 
+                                moveAct, 
+                                cc.delayTime(0.2),
+                                cc.callFunc( () => {
+                                    this.next();
+                                })
+                            )
+                        );
                     }
                 } else if( grid.isNew() ) {
                     let node = this.createItem(grid.getNumber(),grid.getID());
@@ -149,7 +166,15 @@ export default class NewClass extends cc.Component {
                     this.node.addChild( node );
 
                     let moveAct = cc.moveTo( 0.5, x, y );
-                    node.runAction( moveAct );
+                    node.runAction(  
+                        cc.sequence( 
+                            moveAct, 
+                            cc.delayTime(0.2),
+                            cc.callFunc( () => {
+                                this.next();
+                            })
+                        )
+                    );
                 }      
             }
         }

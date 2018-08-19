@@ -21,7 +21,7 @@ var addStatistics = function( length ) {
         statistics[ length ] += 1;
     } else {
         statistics[ length ] = 1;
-    }
+    }   
 }
 
 var getContinuous = function( list, field ) {
@@ -58,6 +58,10 @@ var getContinuous = function( list, field ) {
 var getContinuousGroup = function( list ) {
     var groupsX = {};
     var groupsY = {};
+
+    var groupSkewX = {};
+    var groupSkewY = {};
+
     for( var i = 0; i < list.length; i++ ) {
         var item = list[ i ];
         //横
@@ -70,6 +74,23 @@ var getContinuousGroup = function( list ) {
             groupsY[ item.j ] = [];
         }
         groupsY[ item.j ].push( item );			    
+    }
+
+    for( var i = 0; i < list.length; i++ ) {
+        var item = list[ i ];
+        //斜横
+        var sum = item.i + item.j;
+        if( !groupSkewX[ sum ] ) {
+            groupSkewX[ sum ] = [];
+        }
+        groupSkewX[ sum ].push( item );
+        
+        //斜纵
+        var difference = item.i - item.j;
+        if( !groupSkewY[ difference ] ) {
+            groupSkewY[ difference ] = [];
+        }
+        groupSkewY[ difference ].push( item );			    
     }
 
     var results = [];
@@ -90,6 +111,22 @@ var getContinuousGroup = function( list ) {
         results = results.concat( getContinuous( array, 'i' ) );
     }
 
+    for( var key in groupSkewX ) {
+        var array = groupSkewX[ key ];
+        array.sort( function( a, b ) {
+            return a.i  - b.i;
+        } );
+        results = results.concat( getContinuous( array, 'i' ) );
+    }
+
+    for( var key in groupSkewY ) {
+        var array = groupSkewY[ key ];
+        array.sort( function( a, b ) {
+            return a.i  - b.i;
+        } );
+        results = results.concat( getContinuous( array, 'i' ) );
+    }
+
     return results;
 }
 
@@ -104,7 +141,8 @@ var group = function( gameBoard ) {
             }
             groups[ grid.getNumber() ].push( {
                 grid:  grid,
-                i: i, j: j 
+                i: i, 
+                j: j 
             } );
         }
     }			

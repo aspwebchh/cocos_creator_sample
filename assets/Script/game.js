@@ -76,10 +76,7 @@ cc.Class({
     },
 
     onLoad () {
-        this.layout.getComponent('game_layout').game = this;
-    },
-
-    start () {
-
+        let gameLayout = this.layout.getComponent('game_layout');
+        gameLayout.game = this;
     },
 });
